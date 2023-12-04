@@ -1,5 +1,6 @@
 package com.victor.HelpDesk.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.victor.HelpDesk.domain.enums.Perfil;
 import lombok.Getter;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class Cliente extends Pessoa{
     private static final long serialVersionUid = 1L;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Chamado> chamados = new ArrayList<>();
 
