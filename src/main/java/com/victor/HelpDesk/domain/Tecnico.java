@@ -5,6 +5,7 @@ import com.victor.HelpDesk.domain.enums.Perfil;
 import lombok.Getter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.List;
 public class Tecnico extends Pessoa{
     private static final long serialVersionUid = 1L;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "tecnico")
+
+    @OneToMany(mappedBy = "tecnico",fetch = FetchType.LAZY)
     private List<Chamado> chamados = new ArrayList<>();
 
     public Tecnico() {

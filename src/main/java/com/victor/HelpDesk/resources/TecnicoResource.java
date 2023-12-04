@@ -11,15 +11,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping(value ="/tecnicos")
 public class TecnicoResource {
     @Autowired
     private TecnicoService service;
     @GetMapping(value ="/{id}")
-    public ResponseEntity<TecnicoDto> findById(@PathVariable Integer id){
-    Tecnico obj = service.findById(id);
-    return ResponseEntity.ok().body(new TecnicoDto(obj));
+    public ResponseEntity<TecnicoDto> findById(@PathVariable Integer id) {
+        Tecnico obj = service.findById(id);
+        return ResponseEntity.ok().body(new TecnicoDto(obj));
+    }
+    @GetMapping
+    public ResponseEntity<List<TecnicoDto>> findAll(){
+        List<Tecnico> list = service.findAll();
+        List<TecnicoDto> listDTO = list.stream().map(obj -> new TecnicoDto(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDTO);
 
-}
+        }
+
 }
