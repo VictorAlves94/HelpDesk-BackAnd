@@ -5,6 +5,7 @@ import com.victor.HelpDesk.domain.Tecnico;
 import com.victor.HelpDesk.domain.enums.Perfil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -16,9 +17,13 @@ public class TecnicoDto implements Serializable {
 
 
     protected Integer id;
+    @NotNull(message = "O campo NOME é obrigatorio!")
     protected String nome;
+    @NotNull(message = "O campo CPF é obrigatorio!")
     protected String cpf;
+    @NotNull(message = "O campo E-MAIL é obrigatorio!")
     protected String email;
+    @NotNull(message = "O campo SENHA é obrigatorio!")
     protected String senha;
     protected Set<Integer> perfils = new HashSet<>();
     @JsonFormat(pattern = "dd/MM/yyyy")
