@@ -7,6 +7,7 @@ import com.victor.HelpDesk.domain.Tecnico;
 import com.victor.HelpDesk.domain.enums.Prioridade;
 import com.victor.HelpDesk.domain.enums.Status;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -18,11 +19,17 @@ public class ChamadoDto implements Serializable {
     private LocalDate dataAbertura = LocalDate.now();
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataFechamento;
+    @NotNull(message = "O campo PRIORIDADE é requerido")
     private Prioridade prioridade;
+    @NotNull(message = "O campo STATUS é requerido")
     private Status status;
+    @NotNull(message = "O campo TITULO é requerido")
     private String titulo;
+    @NotNull(message = "O campo OBSERVAÇÕES é requerido")
     private String observacoes;
+    @NotNull(message = "O campo TECNICO é requerido")
     private Tecnico tecnico;
+    @NotNull(message = "O campo CLIENTE é requerido")
     private Cliente cliente;
     private  String nomeTecnico;
     private String nomeCliente;

@@ -7,11 +7,11 @@ import com.victor.HelpDesk.domain.dto.ClienteDto;
 import com.victor.HelpDesk.serveces.ChamadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +31,14 @@ public class ChamadoResource {
         List<Chamado> list = service.findAll();
         List<ChamadoDto> listDTO = list.stream().map(obj -> new ChamadoDto(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
+    }
+    @PostMapping
+    public ResponseEntity<ChamadoDto> create(@Valid @RequestBody ChamadoDto objDto){
+        Chamado obj = service.create(objDto);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+
     }
 
 
