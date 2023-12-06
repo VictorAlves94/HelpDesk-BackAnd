@@ -19,11 +19,13 @@ import java.util.stream.Collectors;
 public class TecnicoResource {
     @Autowired
     private TecnicoService service;
+
     @GetMapping(value ="/{id}")
     public ResponseEntity<TecnicoDto> findById(@PathVariable Integer id) {
         Tecnico obj = service.findById(id);
         return ResponseEntity.ok().body(new TecnicoDto(obj));
     }
+
     @GetMapping
     public ResponseEntity<List<TecnicoDto>> findAll(){
         List<Tecnico> list = service.findAll();
@@ -45,5 +47,12 @@ public class TecnicoResource {
         return ResponseEntity.ok().body(new TecnicoDto(obj));
 
     }
+    @DeleteMapping(value ="/{id}")
+    public ResponseEntity<TecnicoDto> delete(@PathVariable Integer id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+
+    }
+
 
 }
