@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 @ControllerAdvice
@@ -26,15 +27,17 @@ public class ResourceExceptionHandler {
                 "Violação de dados", ex.getMessage(),request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<StandardError> methodArgumentNotValidException(MethodArgumentNotValidException ex,
-                                                                         HttpServletRequest request){
-        ValidationError errors = new ValidationError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-                "Erro na validação dos campos", ex.getMessage(), request.getRequestURI());
+    public ResponseEntity<StandardError> validationErros(MethodArgumentNotValidException ex, HttpServletRequest request){
+        ValidationError errors = new ValidationError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Validation error", "Erro na validação dos campos",
+                request.getRequestURI());
 
         for (FieldError x : ex.getBindingResult().getFieldErrors()){
-            errors.addErrors(x.getField(),x.getDefaultMessage());
+            errors.addError(x.getField(), x.getDefaultMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+
+
 }
