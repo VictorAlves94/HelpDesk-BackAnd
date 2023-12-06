@@ -25,10 +25,10 @@ public class DBService {
     @Autowired
     private ChamadoRepository chamadoRepository;
  public void InstanciaDB(){
-     Tecnico tec1 = new Tecnico(null,"Valdir cezar", "123.456.789.00", "valdir@gmail.com", "123");
+     Tecnico tec1 = new Tecnico(null,"Valdir cezar", "453.694.970-44", "valdir@gmail.com", "123");
      tec1.addPerfil(Perfil.Admin);
 
-     Cliente cli1 =new Cliente(null,"Linus Torvalds", "098.765.432.11","linus@gmail.com", "123");
+     Cliente cli1 =new Cliente(null,"Linus Torvalds", "511.658.920-06","linus@gmail.com", "123");
 
      Chamado c1 =new Chamado(null, Prioridade.Media, Status.Andamento,"Chamado 1","primeiro chamdo", tec1,cli1);
 

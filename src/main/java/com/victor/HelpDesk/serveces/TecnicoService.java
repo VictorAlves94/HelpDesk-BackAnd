@@ -36,6 +36,13 @@ public class TecnicoService {
         Tecnico newObj = new Tecnico(objDto);
         return tecnicoRepository.save(newObj);
     }
+    public Tecnico uptade(Integer id, TecnicoDto objDto) {
+        objDto.setId(id);
+        Tecnico oldObj = findById(id);
+        validaPorCPFeEmail(objDto);
+        oldObj = new Tecnico(objDto);
+        return tecnicoRepository.save(oldObj);
+    }
 
     private void validaPorCPFeEmail(TecnicoDto objDto) {
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
@@ -48,5 +55,6 @@ public class TecnicoService {
         }
 
     }
+
 
 }
