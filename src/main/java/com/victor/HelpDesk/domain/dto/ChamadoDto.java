@@ -1,6 +1,7 @@
 package com.victor.HelpDesk.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.victor.HelpDesk.domain.Chamado;
 import com.victor.HelpDesk.domain.Cliente;
 import com.victor.HelpDesk.domain.Tecnico;
@@ -31,11 +32,13 @@ public class ChamadoDto implements Serializable {
     private Tecnico tecnico;
     @NotNull(message = "O campo CLIENTE é requerido")
     private Cliente cliente;
+    @JsonIgnore
     private  String nomeTecnico;
+    @JsonIgnore
     private String nomeCliente;
 
     public ChamadoDto(Chamado obj){
-        super();
+
     }
     public ChamadoDto(Integer id, LocalDate dataAbertura, LocalDate dataFechamento, Prioridade prioridade, Status status, String titulo, String observacoes, Tecnico tecnico, Cliente cliente, String nomeTecnico, String nomeCliente) {
         super();

@@ -1,6 +1,6 @@
 package com.victor.HelpDesk.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.*;
 import com.victor.HelpDesk.domain.enums.Prioridade;
 import com.victor.HelpDesk.domain.enums.Status;
 
@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Chamado implements Serializable {
     private static final long serialVersionUid = 1L;
     @Id
@@ -27,9 +28,11 @@ public class Chamado implements Serializable {
     private String observacoes;
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Tecnico tecnico;
     @ManyToOne
     @JoinColumn(name = "cliente_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Cliente cliente;
 
 

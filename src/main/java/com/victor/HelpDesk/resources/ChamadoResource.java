@@ -1,9 +1,7 @@
 package com.victor.HelpDesk.resources;
 
 import com.victor.HelpDesk.domain.Chamado;
-import com.victor.HelpDesk.domain.Cliente;
 import com.victor.HelpDesk.domain.dto.ChamadoDto;
-import com.victor.HelpDesk.domain.dto.ClienteDto;
 import com.victor.HelpDesk.serveces.ChamadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,11 @@ public class ChamadoResource {
     @GetMapping
     public ResponseEntity<List<ChamadoDto>> findAll(){
         List<Chamado> list = service.findAll();
-        List<ChamadoDto> listDTO = list.stream().map(obj -> new ChamadoDto(obj)).collect(Collectors.toList());
+        List<ChamadoDto> listDTO = list.stream().map(obj -> new ChamadoDto(obj.getId(),
+                obj.getDataAbertura(),obj.getDataFechamento(),obj.getPrioridade(),
+                obj.getStatus(),obj.getTitulo(),obj.getObservacoes(), obj.getTecnico(),
+                obj.getCliente(),obj.getTecnico().getNome(),obj.getCliente().getNome()))
+                .collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
     }
     @PostMapping

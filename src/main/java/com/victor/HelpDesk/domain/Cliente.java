@@ -1,5 +1,8 @@
 package com.victor.HelpDesk.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.victor.HelpDesk.domain.dto.ClienteDto;
 import com.victor.HelpDesk.domain.enums.Perfil;
 import lombok.Getter;
@@ -13,11 +16,13 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Cliente extends Pessoa{
     private static final long serialVersionUid = 1L;
 
 
     @OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY)
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Chamado> chamados = new ArrayList<>();
 
     public Cliente() {

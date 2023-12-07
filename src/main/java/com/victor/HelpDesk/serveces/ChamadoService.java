@@ -29,7 +29,8 @@ public class ChamadoService {
     }
 
     public List<Chamado> findAll() {
-        return chamadoRepository.findAll();
+        List<Chamado> all = chamadoRepository.findAll();
+        return all;
     }
 
     public Chamado create(ChamadoDto objDto) {
@@ -46,8 +47,8 @@ public class ChamadoService {
         }
         chamado.setTecnico(tecnico);
         chamado.setCliente(cliente);
-        chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
-        chamado.setStatus(Status.toEnum(obj.getStatus()));
+        chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade().getCodigo()));
+        chamado.setStatus(Status.toEnum(obj.getStatus().getCodigo()));
         chamado.setTitulo(obj.getTitulo());
         chamado.setObservacoes(obj.getObservacoes());
 
