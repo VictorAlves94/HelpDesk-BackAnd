@@ -1,18 +1,18 @@
-package com.victor.HelpDesk.domain.dto;
+package com.victor.HelpDesk.domain.dto.chamados;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.victor.HelpDesk.domain.Chamado;
 import com.victor.HelpDesk.domain.Cliente;
 import com.victor.HelpDesk.domain.Tecnico;
 import com.victor.HelpDesk.domain.enums.Prioridade;
 import com.victor.HelpDesk.domain.enums.Status;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-
-public class ChamadoDto implements Serializable {
+@NoArgsConstructor
+public class ChamadoCeateDto implements Serializable {
     private static final long serialVersionUid = 1L;
 
     private Integer id;
@@ -32,27 +32,18 @@ public class ChamadoDto implements Serializable {
     private Tecnico tecnico;
     @NotNull(message = "O campo CLIENTE é requerido")
     private Cliente cliente;
-    @JsonIgnore
-    private  String nomeTecnico;
-    @JsonIgnore
-    private String nomeCliente;
 
-    public ChamadoDto(Chamado obj){
 
-    }
-    public ChamadoDto(Integer id, LocalDate dataAbertura, LocalDate dataFechamento, Prioridade prioridade, Status status, String titulo, String observacoes, Tecnico tecnico, Cliente cliente, String nomeTecnico, String nomeCliente) {
-        super();
-        this.id = id;
-        this.dataAbertura = dataAbertura;
-        this.dataFechamento = dataFechamento;
-        this.prioridade = prioridade;
-        this.status = status;
-        this.titulo = titulo;
-        this.observacoes = observacoes;
-        this.tecnico = tecnico;
-        this.cliente = cliente;
-        this.nomeTecnico = nomeTecnico;
-        this.nomeCliente = nomeCliente;
+    public ChamadoCeateDto(Chamado chamado) {
+        this.id = chamado.getId();
+        this.dataAbertura = chamado.getDataAbertura();
+        this.dataFechamento = chamado.getDataFechamento();
+        this.prioridade = chamado.getPrioridade();
+        this.status = chamado.getStatus();
+        this.titulo = chamado.getTitulo();
+        this.observacoes = chamado.getObservacoes();
+        this.tecnico = chamado.getTecnico();
+        this.cliente = chamado.getCliente();
     }
 
     public Integer getId() {
@@ -127,19 +118,4 @@ public class ChamadoDto implements Serializable {
         this.cliente = cliente;
     }
 
-    public String getNomeTecnico() {
-        return nomeTecnico;
-    }
-
-    public void setNomeTecnico(String nomeTecnico) {
-        this.nomeTecnico = nomeTecnico;
-    }
-
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
-    }
 }

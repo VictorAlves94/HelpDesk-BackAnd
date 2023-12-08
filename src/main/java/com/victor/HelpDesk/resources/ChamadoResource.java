@@ -1,7 +1,8 @@
 package com.victor.HelpDesk.resources;
 
 import com.victor.HelpDesk.domain.Chamado;
-import com.victor.HelpDesk.domain.dto.ChamadoDto;
+import com.victor.HelpDesk.domain.dto.chamados.ChamadoCeateDto;
+import com.victor.HelpDesk.domain.dto.chamados.ChamadoListarDto;
 import com.victor.HelpDesk.serveces.ChamadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +21,19 @@ public class ChamadoResource {
     private ChamadoService service;
 
     @GetMapping("{id}")
-    public ResponseEntity<ChamadoDto> findById(@PathVariable Integer id){
+    public ResponseEntity<ChamadoListarDto> findById(@PathVariable Integer id){
         Chamado obj = service.findById(id);
-        return ResponseEntity.ok().body(new ChamadoDto(obj));
+        return ResponseEntity.ok().body(new ChamadoListarDto(obj));
     }
     @GetMapping
-    public ResponseEntity<List<ChamadoDto>> findAll(){
+    public ResponseEntity<List<ChamadoListarDto>> findAll(){
         List<Chamado> list = service.findAll();
-        List<ChamadoDto> listDTO = list.stream().map(obj -> new ChamadoDto(obj.getId(),
-                obj.getDataAbertura(),obj.getDataFechamento(),obj.getPrioridade(),
-                obj.getStatus(),obj.getTitulo(),obj.getObservacoes(), obj.getTecnico(),
-                obj.getCliente(),obj.getTecnico().getNome(),obj.getCliente().getNome()))
+        List<ChamadoListarDto> listDTO = list.stream().map(obj -> new ChamadoListarDto(obj))
                 .collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
     }
     @PostMapping
-    public ResponseEntity<ChamadoDto> create(@Valid @RequestBody ChamadoDto objDto){
+    public ResponseEntity<ChamadoCeateDto> create(@Valid @RequestBody ChamadoCeateDto objDto){
         Chamado obj = service.create(objDto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
