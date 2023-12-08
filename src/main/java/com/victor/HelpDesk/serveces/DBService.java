@@ -10,6 +10,7 @@ import com.victor.HelpDesk.domain.repository.ChamadoRepository;
 import com.victor.HelpDesk.domain.repository.ClienteRepository;
 import com.victor.HelpDesk.domain.repository.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -20,15 +21,18 @@ public class DBService {
     private TecnicoRepository tecnicoRepository;
 
     @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    @Autowired
     private ClienteRepository clienteRepository;
 
     @Autowired
     private ChamadoRepository chamadoRepository;
  public void InstanciaDB(){
-     Tecnico tec1 = new Tecnico(null,"Valdir cezar", "453.694.970-44", "valdir@gmail.com", "123");
+     Tecnico tec1 = new Tecnico(null,"Valdir cezar", "453.694.970-44", "valdir@gmail.com", encoder.encode("123"));
      tec1.addPerfil(Perfil.Admin);
 
-     Cliente cli1 =new Cliente(null,"Linus Torvalds", "511.658.920-06","linus@gmail.com", "123");
+     Cliente cli1 =new Cliente(null,"Linus Torvalds", "511.658.920-06","linus@gmail.com", encoder.encode("123"));
 
      Chamado c1 =new Chamado(null, Prioridade.Media, Status.Andamento,"Chamado 1","primeiro chamado", tec1,cli1);
      Chamado c2 =new Chamado(null, Prioridade.Media, Status.Andamento,"Chamado 2","segundo chamado ", tec1,cli1);
