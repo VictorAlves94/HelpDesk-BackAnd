@@ -10,13 +10,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
+
 @NoArgsConstructor
 @Getter
 @Setter
-public class ChamadoCeateDto implements Serializable {
+public class ChamadoAtualizarDto implements Serializable {
     private static final long serialVersionUid = 1L;
 
     private Integer id;
@@ -24,21 +26,23 @@ public class ChamadoCeateDto implements Serializable {
     private LocalDate dataAbertura = LocalDate.now();
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataFechamento;
-    @NotNull(message = "O campo PRIORIDADE é requerido")
+    @NotNull
     private Prioridade prioridade;
-    @NotNull(message = "O campo STATUS é requerido")
+    @NotNull
     private Status status;
-    @NotNull(message = "O campo TITULO é requerido")
+    @NotNull
     private String titulo;
-    @NotNull(message = "O campo OBSERVAÇÕES é requerido")
     private String observacoes;
-    @NotNull(message = "O campo TECNICO é requerido")
+    @NotNull
     private Integer tecnico;
-    @NotNull(message = "O campo CLIENTE é requerido")
+    @NotNull
     private Integer cliente;
 
+    private String nomeTecnico;
+    private String nomeCliente;
 
-    public ChamadoCeateDto(Chamado chamado) {
+
+    public ChamadoAtualizarDto(Chamado chamado) {
         this.id = chamado.getId();
         this.dataAbertura = chamado.getDataAbertura();
         this.dataFechamento = chamado.getDataFechamento();
@@ -48,6 +52,8 @@ public class ChamadoCeateDto implements Serializable {
         this.observacoes = chamado.getObservacoes();
         this.tecnico = chamado.getTecnico().getId();
         this.cliente = chamado.getCliente().getId();
+        this.nomeTecnico = chamado.getTecnico().getNome();
+        this.nomeCliente = chamado.getCliente().getNome();
     }
 
 }

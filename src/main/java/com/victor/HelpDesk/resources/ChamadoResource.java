@@ -1,6 +1,7 @@
 package com.victor.HelpDesk.resources;
 
 import com.victor.HelpDesk.domain.Chamado;
+import com.victor.HelpDesk.domain.dto.chamados.ChamadoAtualizarDto;
 import com.victor.HelpDesk.domain.dto.chamados.ChamadoCeateDto;
 import com.victor.HelpDesk.domain.dto.chamados.ChamadoListarDto;
 import com.victor.HelpDesk.serveces.ChamadoService;
@@ -20,7 +21,7 @@ public class ChamadoResource {
     @Autowired
     private ChamadoService service;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ChamadoListarDto> findById(@PathVariable Integer id){
         Chamado obj = service.findById(id);
         return ResponseEntity.ok().body(new ChamadoListarDto(obj));
@@ -39,6 +40,11 @@ public class ChamadoResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
 
+    }
+    @PutMapping("/{id}")
+    public  ResponseEntity<ChamadoAtualizarDto> update(@PathVariable Integer id, @ Valid @RequestBody ChamadoAtualizarDto objDto){
+        Chamado newObj = service.update(id,objDto);
+        return ResponseEntity.ok().body(new ChamadoAtualizarDto(newObj));
     }
 
 
