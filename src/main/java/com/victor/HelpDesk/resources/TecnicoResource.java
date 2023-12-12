@@ -6,6 +6,7 @@ import com.victor.HelpDesk.serveces.TecnicoService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,19 +35,22 @@ public class TecnicoResource {
 
         }
 
+    @PreAuthorize("hasAnyRole('Admin')")
     @PostMapping
     public ResponseEntity<TecnicoDto> create(@Valid @RequestBody TecnicoDto objDto){
     Tecnico newObj =service.create(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
     return ResponseEntity.created(uri).build();
     }
-
+    @PreAuthorize("hasAnyRole('Admin')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<TecnicoDto> update(@PathVariable Integer id,@Valid @RequestBody TecnicoDto objDto){
         Tecnico obj = service.uptade(id,objDto);
         return ResponseEntity.ok().body(new TecnicoDto(obj));
 
     }
+
+    @PreAuthorize("hasAnyRole('Admin')")
     @DeleteMapping(value ="/{id}")
     public ResponseEntity<TecnicoDto> delete(@PathVariable Integer id){
         service.delete(id);
