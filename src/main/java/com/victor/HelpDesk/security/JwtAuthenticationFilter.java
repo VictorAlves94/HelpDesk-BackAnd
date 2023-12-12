@@ -1,8 +1,7 @@
 package com.victor.HelpDesk.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victor.HelpDesk.domain.dto.chamados.CredenciaisDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.victor.HelpDesk.domain.dto.CredenciaisDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,7 +35,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 new UsernamePasswordAuthenticationToken(creds.getEmail(),creds.getSenha(), new ArrayList<>());
 
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        
+
         return authentication;
     }catch (Exception e){
         throw new RuntimeException(e);
@@ -50,7 +49,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserSS) authResult.getPrincipal()).getUsername();
         String token = jwtUtil.genereteToken(username);
         response.setHeader("access-control-expose-headers", "Authoriation");
-        response.setHeader("Authoriation","Bearer" + token );
+        response.setHeader("Authorization","Bearer" + token );
     }
 
     @Override

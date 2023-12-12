@@ -1,4 +1,4 @@
-package com.victor.HelpDesk.domain.dto.chamados;
+package com.victor.HelpDesk.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;

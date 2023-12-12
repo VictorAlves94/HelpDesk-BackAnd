@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class UserSS implements UserDetails {
 
+
     private Integer id;
     private String email;
     private  String senha;
@@ -54,7 +55,7 @@ public class UserSS implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
