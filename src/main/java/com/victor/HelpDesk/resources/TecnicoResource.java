@@ -35,14 +35,14 @@ public class TecnicoResource {
 
         }
 
-    @PreAuthorize("hasAnyRole('Admin')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<TecnicoDto> create(@Valid @RequestBody TecnicoDto objDto){
     Tecnico newObj =service.create(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
     return ResponseEntity.created(uri).build();
     }
-    @PreAuthorize("hasAnyRole('Admin')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<TecnicoDto> update(@PathVariable Integer id,@Valid @RequestBody TecnicoDto objDto){
         Tecnico obj = service.uptade(id,objDto);
@@ -50,7 +50,7 @@ public class TecnicoResource {
 
     }
 
-    @PreAuthorize("hasAnyRole('Admin')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value ="/{id}")
     public ResponseEntity<TecnicoDto> delete(@PathVariable Integer id){
         service.delete(id);
