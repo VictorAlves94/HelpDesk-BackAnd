@@ -48,7 +48,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String username = ((UserSS) authResult.getPrincipal()).getUsername();
         String token = jwtUtil.genereteToken(username);
-        response.setHeader("access-control-expose-headers", "Authorization");
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
         response.setHeader("Authorization","Bearer" + token );
     }
 
@@ -58,8 +59,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setStatus(401);
         response.setContentType("application/json");
         response.getWriter().append(json());
-    }
 
+   }
     private CharSequence json() {
        long date = new Date().getTime();
        return "{"
