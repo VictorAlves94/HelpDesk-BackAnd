@@ -44,14 +44,13 @@ public class ClienteService {
     public Cliente uptade(Integer id,ClienteDto objDto) {
         objDto.setId(id);
         Cliente oldObj = findById(id);
-        validaPorCPFeEmail(objDto);
         oldObj = new Cliente(objDto);
         return clienteRepository.save(oldObj);
     }
     public void delete(Integer id) {
         Cliente obj = findById(id);
         if(obj.getChamados().size() > 0){
-            throw new DataIntegrityViolationException("O tecnico possui ordens de serviço, e nao pode ser deletado!");
+            throw new DataIntegrityViolationException("O cliente possui ordens de serviço, e nao pode ser deletado!");
         }
         clienteRepository.deleteById(id);
 
