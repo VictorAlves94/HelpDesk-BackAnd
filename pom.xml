@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.victor</groupId>
 	<artifactId>HelpDesk</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>HelpDesk</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -73,6 +73,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>

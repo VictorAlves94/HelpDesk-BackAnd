@@ -3,6 +3,8 @@ package com.victor.HelpDesk.domain.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.victor.HelpDesk.domain.Tecnico;
 import com.victor.HelpDesk.domain.enums.Perfil;
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;

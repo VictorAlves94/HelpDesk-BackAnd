@@ -44,7 +44,6 @@ public class TecnicoService {
     public Tecnico uptade(Integer id, TecnicoDto objDto) {
         objDto.setId(id);
         Tecnico oldObj = findById(id);
-        validaPorCPFeEmail(objDto);
         oldObj = new Tecnico(objDto);
         return tecnicoRepository.save(oldObj);
     }
@@ -57,16 +56,20 @@ public class TecnicoService {
 
     }
 
+
     private void validaPorCPFeEmail(TecnicoDto objDto) {
+
+        // Validação se o CPF já está registrado
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
-        if (obj.isPresent() && obj.get().getId() != objDto.getId()){
-        throw new DataIntegrityViolationException("Cpf já cadastrado no sistema.");
-        }
-        obj = pessoaRepository.findByEmail(objDto.getEmail());
-        if (obj.isPresent() && obj.get().getId() != objDto.getId()){
-            throw new DataIntegrityViolationException("E-mail já cadastrado no sistema.");
+        if (obj.isPresent() && !obj.get().getId().equals(objDto.getId())) {
+            throw new DataIntegrityViolationException("CPF já cadastrado no sistema.");
         }
 
+        // Validação se o e-mail já está registrado
+        obj = pessoaRepository.findByEmail(objDto.getEmail());
+        if (obj.isPresent() && !obj.get().getId().equals(objDto.getId())) {
+            throw new DataIntegrityViolationException("E-mail já cadastrado no sistema.");
+        }
     }
 
 
