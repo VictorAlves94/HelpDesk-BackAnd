@@ -29,7 +29,7 @@ public class DBService {
     @Autowired
     private ChamadoRepository chamadoRepository;
  public void InstanciaDB(){
-     Tecnico tec1 = new Tecnico(null,"Valdir cezar", "453.694.970-44", "valdir@gmail.com", encoder.encode("123"));
+     Tecnico tec1 = new Tecnico(null,"Valdir cezar", "453.694.970-44", "admin@gmail.com", encoder.encode("admin"));
      tec1.addPerfil(Perfil.Admin);
 
      Cliente cli1 =new Cliente(null,"Linus Torvalds", "511.658.920-06","linus@gmail.com", encoder.encode("123"));
