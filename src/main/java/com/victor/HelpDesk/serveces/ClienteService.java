@@ -44,6 +44,9 @@ public class ClienteService {
     public Cliente uptade(Integer id,ClienteDto objDto) {
         objDto.setId(id);
         Cliente oldObj = findById(id);
+        if(!objDto.getSenha().equals(oldObj.getSenha())){
+            objDto.setSenha(encoder.encode(objDto.getSenha()));
+        }
         oldObj = new Cliente(objDto);
         return clienteRepository.save(oldObj);
     }
