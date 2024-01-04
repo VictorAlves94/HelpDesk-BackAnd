@@ -29,7 +29,6 @@ public class ClienteService {
         Optional<Cliente> obj = clienteRepository.findById(id);
         return obj.orElseThrow(() ->new ObjectnotFoundException("Objeto nao encontrado! id:" + id));
     }
-
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
     }
