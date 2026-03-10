@@ -1,9 +1,10 @@
 HelpDesk API
 
 API REST desenvolvida com Spring Boot para gerenciamento de chamados de suporte técnico.
-O sistema permite criar, listar, atualizar e consultar chamados, simulando o funcionamento básico de um sistema de Help Desk utilizado em empresas de TI.
 
-Este projeto foi desenvolvido com foco em boas práticas de desenvolvimento backend, separação em camadas e uso de DTOs para comunicação com a API.
+O sistema simula um ambiente de Help Desk corporativo, onde clientes podem abrir chamados e técnicos são responsáveis por atendê-los.
+
+A aplicação foi construída seguindo boas práticas de arquitetura backend, utilizando separação em camadas, DTOs, autenticação JWT e integração com banco de dados via JPA.
 
 Tecnologias utilizadas
 
@@ -15,6 +16,10 @@ Spring Data JPA
 
 Hibernate
 
+Spring Security
+
+JWT Authentication
+
 H2 Database
 
 Maven
@@ -23,31 +28,71 @@ Bean Validation
 
 Arquitetura do projeto
 
-O projeto segue o padrão de arquitetura em camadas, comum em aplicações Spring Boot:
+O projeto segue o padrão de arquitetura em camadas.
 
-Controller → Service → Repository → Entity
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+Entity
 
 Estrutura de pacotes:
 
-src/main/java/com/victor/HelpDesk
+config
+controller
+dto
+entity
+enums
+exceptions
+repository
+security
+services
 
-controller – Camada responsável pelos endpoints da API
-serveces – Camada de regras de negócio
-repository – Comunicação com o banco de dados
-entity – Entidades do sistema
-chamados – DTOs utilizados para transferência de dados
-enums – Enumerações de status e prioridade
-config – Configurações da aplicação
+Descrição das camadas:
 
-Essa organização facilita manutenção, testes e escalabilidade do projeto.
+controller
+Responsável pelos endpoints da API.
+
+services
+Contém as regras de negócio do sistema.
+
+repository
+Camada de acesso ao banco de dados utilizando Spring Data JPA.
+
+entity
+Representa as entidades persistidas no banco.
+
+dto
+Objetos de transferência de dados entre API e cliente.
+
+enums
+Enumerações utilizadas no sistema como status e prioridade.
+
+exceptions
+Tratamento global de erros da aplicação.
+
+security
+Configurações de autenticação e autorização utilizando JWT.
+
+config
+Configurações iniciais e dados de teste da aplicação.
 
 Modelo de domínio
 
-A aplicação possui a entidade principal:
+O sistema possui três entidades principais:
+
+Cliente
+Usuário responsável por abrir chamados de suporte.
+
+Técnico
+Responsável por atender e resolver chamados.
 
 Chamado
+Representa uma solicitação de suporte aberta por um cliente.
 
-Um chamado possui informações como:
+Cada chamado possui:
 
 título
 
@@ -57,9 +102,17 @@ prioridade
 
 status
 
+cliente responsável
+
+técnico responsável
+
 data de abertura
 
-Enums utilizados:
+data de fechamento
+
+observações
+
+Enumerações do sistema
 
 Prioridade
 
@@ -77,86 +130,76 @@ EM_ANDAMENTO
 
 FINALIZADO
 
-Endpoints da API
-Criar chamado
+Segurança da aplicação
 
-POST /chamados
+O sistema utiliza Spring Security com autenticação baseada em JWT.
 
-Exemplo de JSON:
+Principais componentes:
 
-{
-"titulo": "Problema no computador",
-"descricao": "Computador não liga",
-"prioridade": "ALTA"
-}
+JwtAuthenticationFilter
 
-Listar todos os chamados
+JwtAuthorizationFilter
+
+SecurityConfig
+
+UserDetailsServiceImpl
+
+Isso permite proteger os endpoints da API e controlar o acesso dos usuários.
+
+Endpoints principais
+
+Clientes
+
+GET /clientes
+POST /clientes
+PUT /clientes/{id}
+GET /clientes/{id}
+
+Técnicos
+
+GET /tecnicos
+POST /tecnicos
+PUT /tecnicos/{id}
+GET /tecnicos/{id}
+
+Chamados
 
 GET /chamados
-
-Retorna uma lista com todos os chamados cadastrados.
-
-Buscar chamado por ID
-
-GET /chamados/{id}
-
-Retorna os detalhes de um chamado específico.
-
-Atualizar chamado
-
+POST /chamados
 PUT /chamados/{id}
-
-Permite atualizar informações do chamado.
-
+GET /chamados/{id}
 Banco de dados
 
-O projeto utiliza H2 Database em memória para facilitar testes e execução.
+O projeto utiliza H2 Database em memória.
 
 Console do banco:
 
 http://localhost:8080/h2-console
 
-Configuração padrão:
+Configuração padrão
 
-JDBC URL
-jdbc:h2:mem
-
-User
-sa
-
-Password
-(vazio)
-
+JDBC URL: jdbc:h2:mem:testdb
+User: sa
+Password: (vazio)
 Como executar o projeto
 
-Clone o repositório:
+Clone o repositório
 
 git clone https://github.com/VictorAlves94/HelpDesk-BackAnd.git
 
-as práticas de organização de código
-
-Modelagem de domínio
-
-Integração com banco de dados usando JPA
-
-Entre na pasta do projeto:
+Entre na pasta
 
 cd HelpDesk-BackAnd
 
-Execute a aplicação:
+Execute a aplicação
 
-mvn spring-boot
+mvn spring-boot:run
 
-A aplicação estará disponível em:
+A API estará disponível em
 
 http://localhost:8080
+Projeto relacionado
 
-Objetivo do projeto
+Frontend da aplicação
 
-Este projeto foi desenvolvido com o objetivo de praticar desenvolvimento de APIs REST com Spring Boot, aplicando conceitos importantes como:
-
-Arquitetura em camadas
-
-Uso de DTOs
-
-Bo
+https://github.com/VictorAlves94/HelpDesk-FrontEnd
