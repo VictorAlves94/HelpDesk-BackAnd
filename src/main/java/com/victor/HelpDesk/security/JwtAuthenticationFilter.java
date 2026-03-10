@@ -1,7 +1,7 @@
 package com.victor.HelpDesk.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victor.HelpDesk.domain.dto.CredenciaisDto;
+import com.victor.HelpDesk.dto.CredenciaisDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

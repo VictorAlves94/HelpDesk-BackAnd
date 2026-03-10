@@ -1,6 +1,6 @@
 package com.victor.HelpDesk.security;
 
-import com.victor.HelpDesk.domain.enums.Perfil;
+import com.victor.HelpDesk.enums.Perfil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
