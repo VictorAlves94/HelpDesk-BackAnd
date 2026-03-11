@@ -17,18 +17,22 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value ="/tecnicos")
 public class TecnicoController {
-    @Autowired
-    private TecnicoService service;
+
+    private final TecnicoService tecnicoService;
+
+    public TecnicoController(TecnicoService service) {
+        this.tecnicoService = service;
+    }
 
     @GetMapping(value ="/{id}")
     public ResponseEntity<TecnicoDto> findById(@PathVariable Integer id) {
-        Tecnico obj = service.findById(id);
+        Tecnico obj = tecnicoService.findById(id);
         return ResponseEntity.ok().body(new TecnicoDto(obj));
     }
 
     @GetMapping
     public ResponseEntity<List<TecnicoDto>> findAll(){
-        List<Tecnico> list = service.findAll();
+        List<Tecnico> list = tecnicoService.findAll();
         List<TecnicoDto> listDTO = list.stream().map(obj -> new TecnicoDto(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
 
@@ -37,14 +41,14 @@ public class TecnicoController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<TecnicoDto> create(@Valid @RequestBody TecnicoDto objDto){
-    Tecnico newObj =service.create(objDto);
+    Tecnico newObj =tecnicoService.create(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
-    return ResponseEntity.created(uri).build();
+    return ResponseEntity.created(uri).body(new TecnicoDto(newObj));
     }
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<TecnicoDto> update(@PathVariable Integer id,@Valid @RequestBody TecnicoDto objDto){
-        Tecnico obj = service.update(id,objDto);
+        Tecnico obj = tecnicoService.update(id,objDto);
         return ResponseEntity.ok().body(new TecnicoDto(obj));
 
     }
@@ -52,7 +56,7 @@ public class TecnicoController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value ="/{id}")
     public ResponseEntity<TecnicoDto> delete(@PathVariable Integer id){
-        service.delete(id);
+        tecnicoService.delete(id);
         return ResponseEntity.noContent().build();
 
     }
