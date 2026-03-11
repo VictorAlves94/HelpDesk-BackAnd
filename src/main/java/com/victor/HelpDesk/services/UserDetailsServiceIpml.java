@@ -11,15 +11,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class UserDetailsServiceipml implements UserDetailsService {
-    @Autowired
-    private PessoaRepository repository;
+public class UserDetailsServiceIpml implements UserDetailsService {
+    private final PessoaRepository repository;
+
+
+    public UserDetailsServiceIpml(PessoaRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Pessoa> user = repository.findByEmail(email);
-        if (user.isPresent()){
-            return new UserSS(user.get().getId(),user.get().getEmail(),user.get().getSenha(),user.get().getPerfils());
-        }
-        throw new UsernameNotFoundException(email);
+
+        Pessoa user = repository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        return new UserSS(
+                user.getId(),
+                user.getEmail(),
+                user.getSenha(),
+                user.getPerfils()
+        );
     }
 }
