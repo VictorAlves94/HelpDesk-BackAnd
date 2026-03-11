@@ -47,7 +47,7 @@ public class ClienteController {
                 .path("/{id}")
                 .buildAndExpand(newObj
                         .getId()).toUri();
-    return ResponseEntity.created(uri).build();
+    return ResponseEntity.created(uri).body(new ClienteDto(newObj));
     }
 
 
