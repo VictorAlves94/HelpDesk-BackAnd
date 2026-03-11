@@ -17,59 +17,85 @@ import java.util.Optional;
 @Service
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
-    @Autowired
-    private PessoaRepository pessoaRepository;
+    private final ClienteRepository clienteRepository;
+    private final PessoaRepository pessoaRepository;
+    private final BCryptPasswordEncoder encoder;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    public ClienteService(
+            ClienteRepository clienteRepository,
+            PessoaRepository pessoaRepository,
+            BCryptPasswordEncoder encoder) {
 
-    public Cliente findById(Integer id){
-        Optional<Cliente> obj = clienteRepository.findById(id);
-        return obj.orElseThrow(() ->new ObjectNotFoundException("Objeto nao encontrado! id:" + id));
+        this.clienteRepository = clienteRepository;
+        this.pessoaRepository = pessoaRepository;
+        this.encoder = encoder;
     }
+
+    public Cliente findById(Integer id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(() ->
+                        new ObjectNotFoundException("Objeto não encontrado! id: " + id));
+    }
+
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
     }
 
     public Cliente create(ClienteDto objDto) {
+
         objDto.setId(null);
         objDto.setSenha(encoder.encode(objDto.getSenha()));
+
         validaPorCPFeEmail(objDto);
+
         Cliente newObj = new Cliente(objDto);
         return clienteRepository.save(newObj);
     }
-    public Cliente update(Integer id,ClienteDto objDto) {
+
+    public Cliente update(Integer id, ClienteDto objDto) {
+
         objDto.setId(id);
+
         Cliente oldObj = findById(id);
-        if(!objDto.getSenha().equals(oldObj.getSenha())){
+
+        validaPorCPFeEmail(objDto);
+
+        if (!objDto.getSenha().equals(oldObj.getSenha())) {
             objDto.setSenha(encoder.encode(objDto.getSenha()));
         }
-        oldObj = new Cliente(objDto);
+
+        oldObj.setNome(objDto.getNome());
+        oldObj.setEmail(objDto.getEmail());
+        oldObj.setCpf(objDto.getCpf());
+        oldObj.setSenha(objDto.getSenha());
+
         return clienteRepository.save(oldObj);
     }
-    public void delete(Integer id) {
-        Cliente obj = findById(id);
-        if(obj.getChamados().size() > 0){
-            throw new DataIntegrityViolationException("O cliente possui ordens de serviço, e nao pode ser deletado!");
-        }
-        clienteRepository.deleteById(id);
 
+    public void delete(Integer id) {
+
+        Cliente obj = findById(id);
+
+        if (!obj.getChamados().isEmpty()) {
+            throw new DataIntegrityViolationException(
+                    "O cliente possui ordens de serviço e não pode ser deletado!");
+        }
+
+        clienteRepository.deleteById(id);
     }
 
     private void validaPorCPFeEmail(ClienteDto objDto) {
+
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
-        if (obj.isPresent() && obj.get().getId() != objDto.getId()){
-        throw new DataIntegrityViolationException("Cpf já cadastrado no sistema.");
+
+        if (obj.isPresent() && obj.get().getId() != objDto.getId()) {
+            throw new DataIntegrityViolationException("CPF já cadastrado no sistema.");
         }
+
         obj = pessoaRepository.findByEmail(objDto.getEmail());
-        if (obj.isPresent() && obj.get().getId() != objDto.getId()){
+
+        if (obj.isPresent() && obj.get().getId() != objDto.getId()) {
             throw new DataIntegrityViolationException("E-mail já cadastrado no sistema.");
         }
-
     }
-
-
-
 }
