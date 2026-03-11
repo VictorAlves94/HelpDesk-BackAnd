@@ -6,7 +6,7 @@ import com.victor.HelpDesk.dto.ClienteDto;
 import com.victor.HelpDesk.repository.ClienteRepository;
 import com.victor.HelpDesk.repository.PessoaRepository;
 import com.victor.HelpDesk.exceptions.DataIntegrityViolationException;
-import com.victor.HelpDesk.exceptions.ObjectnotFoundException;
+import com.victor.HelpDesk.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class ClienteService {
 
     public Cliente findById(Integer id){
         Optional<Cliente> obj = clienteRepository.findById(id);
-        return obj.orElseThrow(() ->new ObjectnotFoundException("Objeto nao encontrado! id:" + id));
+        return obj.orElseThrow(() ->new ObjectNotFoundException("Objeto nao encontrado! id:" + id));
     }
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
