@@ -16,39 +16,52 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value ="/clientes")
 public class ClienteController {
-    @Autowired
-    private ClienteService service;
+    private final ClienteService clienteService;
+
+    public ClienteController(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
 
     @GetMapping(value ="/{id}")
     public ResponseEntity<ClienteDto> findById(@PathVariable Integer id) {
-        Cliente obj = service.findById(id);
+        Cliente obj = clienteService
+                .findById(id);
         return ResponseEntity.ok().body(new ClienteDto(obj));
     }
 
     @GetMapping
     public ResponseEntity<List<ClienteDto>> findAll(){
-        List<Cliente> list = service.findAll();
-        List<ClienteDto> listDTO = list.stream().map(obj -> new ClienteDto(obj)).collect(Collectors.toList());
+        List<Cliente> list = clienteService.findAll();
+        List<ClienteDto> listDTO = list.stream()
+                .map(ClienteDto::new)
+                .collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
 
         }
 
     @PostMapping
     public ResponseEntity<ClienteDto> create(@Valid @RequestBody ClienteDto objDto){
-        Cliente newObj = service.create(objDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
+        Cliente newObj = clienteService.create(objDto);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newObj
+                        .getId()).toUri();
     return ResponseEntity.created(uri).build();
     }
 
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<ClienteDto> update(@PathVariable Integer id,@Valid @RequestBody ClienteDto objDto){
-        Cliente obj = service.update(id,objDto);
+        Cliente obj = clienteService
+                .update(id,objDto);
         return ResponseEntity.ok().body(new ClienteDto(obj));
 
     }
     @DeleteMapping(value ="/{id}")
     public ResponseEntity<ClienteDto> delete(@PathVariable Integer id){
-        service.delete(id);
+        clienteService
+                .delete(id);
         return ResponseEntity.noContent().build();
 
     }
