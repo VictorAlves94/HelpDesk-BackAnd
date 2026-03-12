@@ -33,7 +33,7 @@ public class TecnicoController {
     @GetMapping
     public ResponseEntity<List<TecnicoDto>> findAll(){
         List<Tecnico> list = tecnicoService.findAll();
-        List<TecnicoDto> listDTO = list.stream().map(obj -> new TecnicoDto(obj)).collect(Collectors.toList());
+        List<TecnicoDto> listDTO = list.stream().map(TecnicoDto::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
 
         }
@@ -55,7 +55,7 @@ public class TecnicoController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value ="/{id}")
-    public ResponseEntity<TecnicoDto> delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
         tecnicoService.delete(id);
         return ResponseEntity.noContent().build();
 

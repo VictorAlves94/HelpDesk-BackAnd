@@ -48,7 +48,7 @@ public class ChamadoController {
 
     }
     @PutMapping("/{id}")
-    public  ResponseEntity<ChamadoAtualizarDto> update(@PathVariable Integer id, @ Valid @RequestBody ChamadoAtualizarDto objDto){
+    public  ResponseEntity<ChamadoAtualizarDto> update(@PathVariable Integer id, @Valid @RequestBody ChamadoAtualizarDto objDto){
         Chamado newObj = service
                 .update(id,objDto);
         return ResponseEntity.ok()
