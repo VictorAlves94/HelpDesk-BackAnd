@@ -1,24 +1,24 @@
-HelpDesk API
+🛠 HelpDesk API
 
-API REST desenvolvida com Spring Boot para gerenciamento de chamados de suporte técnico.
+API REST desenvolvida para gerenciamento de chamados técnicos (Help Desk), permitindo controle de usuários, técnicos e tickets de atendimento.
 
-O sistema simula um ambiente de Help Desk corporativo, onde clientes podem abrir chamados e técnicos são responsáveis por atendê-los.
+O sistema permite registrar clientes, abrir chamados, acompanhar status de atendimento e gerenciar o ciclo de vida de um ticket de suporte.
 
-A aplicação foi construída seguindo boas práticas de arquitetura backend, utilizando separação em camadas, DTOs, autenticação JWT e integração com banco de dados via JPA.
+Este projeto foi desenvolvido utilizando Java com Spring Boot, aplicando boas práticas de arquitetura REST, tratamento global de exceções e autenticação baseada em JWT (JSON Web Token).
 
-Tecnologias utilizadas
 
-Java 17
+
+🚀 Tecnologias utilizadas
+
+Java 11+
 
 Spring Boot
 
-Spring Data JPA
-
-Hibernate
-
 Spring Security
 
-JWT Authentication
+JWT (Json Web Token)
+
+Hibernate / JPA
 
 H2 Database
 
@@ -26,180 +26,186 @@ Maven
 
 Bean Validation
 
-Arquitetura do projeto
+REST API
 
-O projeto segue o padrão de arquitetura em camadas.
 
-Controller
-   ↓
-Service
-   ↓
-Repository
-   ↓
-Entity
 
-Estrutura de pacotes:
+📚 Funcionalidades
+
+O sistema possui as seguintes funcionalidades principais:
+
+
+
+👤 Gerenciamento de usuários
+
+Cadastro de clientes
+
+Cadastro de técnicos
+
+Atualização de dados
+
+Listagem de usuários
+
+Busca por ID
+
+Remoção de usuários
+
+
+
+🎫 Gerenciamento de chamados
+
+Abertura de chamados
+
+Atualização de status
+
+Atribuição de técnico responsável
+
+Alteração de prioridade
+
+Encerramento de chamados
+
+
+
+🔐 Autenticação e segurança
+
+Autenticação com JWT
+
+Rotas protegidas com Spring Security
+
+Controle de acesso por autenticação
+
+⚠ Tratamento global de erros
+
+A API possui um sistema centralizado de tratamento de exceções com:
+
+ObjectNotFoundException
+
+DataIntegrityViolationException
+
+ValidationError
+
+As respostas de erro seguem um padrão estruturado:
+
+{
+  "timestamp": 1710250000000,
+  "status": 404,
+  "error": "Object Not Found",
+  "message": "Objeto não encontrado",
+  "path": "/api/chamados/1"
+}
+
+Erros de validação retornam também os campos inválidos:
+
+{
+  "timestamp": 1710250000000,
+  "status": 400,
+  "error": "Validation Error",
+  "message": "Erro na validação dos campos",
+  "path": "/api/clientes",
+  "errors": [
+    {
+      "fieldName": "email",
+      "message": "Email inválido"
+    }
+  ]
+}
+
+
+🧱 Arquitetura do projeto
+
+O projeto segue uma arquitetura em camadas:
+
+src/main/java/com/victor/HelpDesk
 
 config
-controller
-dto
-entity
-enums
-exceptions
-repository
-security
-services
+ └── configurações de segurança e CORS
 
-Descrição das camadas:
 
 controller
-Responsável pelos endpoints da API.
+ └── endpoints da API REST
 
-services
-Contém as regras de negócio do sistema.
+service
+ └── regras de negócio
+
 
 repository
-Camada de acesso ao banco de dados utilizando Spring Data JPA.
+ └── acesso ao banco de dados
 
-entity
-Representa as entidades persistidas no banco.
+
+domain
+ └── entidades do sistema
+
 
 dto
-Objetos de transferência de dados entre API e cliente.
+ └── objetos de transferência de dados
+
 
 enums
-Enumerações utilizadas no sistema como status e prioridade.
+ └── status e prioridades do sistema
+
 
 exceptions
-Tratamento global de erros da aplicação.
+ └── tratamento global de erros
+
 
 security
-Configurações de autenticação e autorização utilizando JWT.
+ └── autenticação JWT
 
-config
-Configurações iniciais e dados de teste da aplicação.
 
-Modelo de domínio
+Essa organização segue boas práticas utilizadas em projetos com Spring Boot.
 
-O sistema possui três entidades principais:
 
-Cliente
-Usuário responsável por abrir chamados de suporte.
 
-Técnico
-Responsável por atender e resolver chamados.
+🔑 Segurança
 
-Chamado
-Representa uma solicitação de suporte aberta por um cliente.
+A API utiliza JWT (JSON Web Token) para autenticação.
 
-Cada chamado possui:
+Fluxo básico:
 
-título
+Usuário realiza login
 
-descrição
+API gera um token JWT
 
-prioridade
+Token deve ser enviado no header das requisições
 
-status
+Exemplo:
 
-cliente responsável
+Authorization: Bearer SEU_TOKEN_AQUI
 
-técnico responsável
+O token é validado por filtros de segurança configurados no Spring Security.
 
-data de abertura
+🗄 Banco de dados
 
-data de fechamento
+Durante o desenvolvimento foi utilizado:
 
-observações
+H2 Database
 
-Enumerações do sistema
+Console disponível em:
 
-Prioridade
+/h2-console
+▶ Como executar o projeto
 
-BAIXA
+1️⃣ Clonar o repositório
+git clone https://github.com/seu-usuario/helpdesk-api.git
 
-MEDIA
+2️⃣ Entrar na pasta do projeto
+cd helpdesk-api
 
-ALTA
-
-Status
-
-ABERTO
-
-EM_ANDAMENTO
-
-FINALIZADO
-
-Segurança da aplicação
-
-O sistema utiliza Spring Security com autenticação baseada em JWT.
-
-Principais componentes:
-
-JwtAuthenticationFilter
-
-JwtAuthorizationFilter
-
-SecurityConfig
-
-UserDetailsServiceImpl
-
-Isso permite proteger os endpoints da API e controlar o acesso dos usuários.
-
-Endpoints principais
-
-Clientes
-
-GET /clientes
-POST /clientes
-PUT /clientes/{id}
-GET /clientes/{id}
-
-Técnicos
-
-GET /tecnicos
-POST /tecnicos
-PUT /tecnicos/{id}
-GET /tecnicos/{id}
-
-Chamados
-
-GET /chamados
-POST /chamados
-PUT /chamados/{id}
-GET /chamados/{id}
-Banco de dados
-
-O projeto utiliza H2 Database em memória.
-
-Console do banco:
-
-http://localhost:8080/h2-console
-
-Configuração padrão
-
-JDBC URL: jdbc:h2:mem:testdb
-User: sa
-Password: (vazio)
-Como executar o projeto
-
-Clone o repositório
-
-git clone https://github.com/VictorAlves94/HelpDesk-BackAnd.git
-
-Entre na pasta
-
-cd HelpDesk-BackAnd
-
-Execute a aplicação
-
+3️⃣ Executar o projeto
 mvn spring-boot:run
 
-A API estará disponível em
+Ou executar pela IDE.
 
-http://localhost:8080
-Projeto relacionado
 
-Frontend da aplicação
-
-https://github.com/VictorAlves94/HelpDesk-FrontEnd
+📡 Principais endpoints
+Usuários
+GET    /usuarios
+GET    /usuarios/{id}
+POST   /usuarios
+PUT    /usuarios/{id}
+DELETE /usuarios/{id}
+Chamados
+GET    /chamados
+GET    /chamados/{id}
+POST   /chamados
+PUT    /chamados/{id}
