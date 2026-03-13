@@ -15,7 +15,7 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String genereteToken(String email){
+    public String generateToken(String email){
         return Jwts.builder()
                 .setSubject(email)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -23,7 +23,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public boolean tokenValido(String token) {
+    public boolean isTokenValid(String token) {
         Claims claims = getClaims(token);
         if (claims != null) {
             String userName = claims.getSubject();
