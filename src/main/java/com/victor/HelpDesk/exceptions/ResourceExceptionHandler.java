@@ -12,15 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ResourceExceptionHandler {
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandardError> objectnotFoundExcepition(ObjectNotFoundException ex, HttpServletRequest request){
+    public ResponseEntity<StandardError> objectNotFoundExcepition(ObjectNotFoundException ex, HttpServletRequest request){
      StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
-             "Object Not FOund", ex.getMessage(),request.getRequestURI());
+             "Object Not Found", ex.getMessage(),request.getRequestURI());
      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request){
         StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-                "Violação de dados", ex.getMessage(),request.getRequestURI());
+                "Data Integrity Violation", ex.getMessage(),request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
